@@ -1,0 +1,95 @@
+#include <iostream>
+#include <cstring> // For handling C-style strings
+
+using namespace std;
+
+class Person {
+protected:
+    char name[30];
+    int age;
+    int id;
+
+public:
+    // Method to get data from user
+    void getData() {
+        cout << "Enter name: ";
+        cin.ignore(); // Ignore leftover newline from previous input
+        cin.getline(name, 30);
+        cout << "Enter age: ";
+        cin >> age;
+        cout << "Enter ID: ";
+        cin >> id;
+    }
+
+    // Method to display data
+    void showData() const {
+        cout << "Name: " << name << endl;
+        cout << "Age: " << age << endl;
+        cout << "ID: " << id << endl;
+    }
+};
+
+class Employee : public Person {
+protected:
+    char designation[30];
+    float basicSal;
+    int totOvertime;
+    int hourlyRate;
+
+public:
+    // Method to get data from user
+    void getData() {
+        Person::getData();
+        cout << "Enter employee designation: ";
+        cin.ignore(); // Ignore leftover newline from previous input
+        cin.getline(designation, 30);
+        cout << "Enter basic salary: ";
+        cin >> basicSal;
+        cout << "Enter total overtime in hours: ";
+        cin >> totOvertime;
+        cout << "Enter hourly rate: ";
+        cin >> hourlyRate;
+    }
+
+    // Method to display data
+    void showData() const {
+        Person::showData();
+        cout << "Designation: " << designation << endl;
+        cout << "Basic Salary: " << basicSal << endl;
+    }
+};
+
+class ComputedSalary : public Employee {
+private:
+    float totalSal;
+
+public:
+    // Method to get data and compute total salary
+    void getData() {
+        Employee::getData();
+        calculate();
+    }
+
+    // Method to calculate total salary
+    void calculate() {
+        totalSal = basicSal + (totOvertime * hourlyRate);
+    }
+
+    // Method to get total salary
+    float getTotal() const {
+        return totalSal;
+    }
+
+    // Method to display data
+    void showData() const {
+        Employee::showData();
+        cout << "Total Salary: " << totalSal << endl;
+    }
+};
+
+int main() {
+    ComputedSalary total;
+    total.getData();
+    total.showData();
+    return 0;
+}
